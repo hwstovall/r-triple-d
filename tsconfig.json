@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "jsx": "preserve",
+    "types": [
+      "node",
+      "webpack-env"
+    ],
+    "rootDirs": [
+      "src",
+      "stories"
+    ]
+  }
+}
