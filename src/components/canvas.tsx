@@ -22,7 +22,7 @@ interface CanvasState {
 }
 
 interface CanvasProps {
-  readonly children: ReadonlyArray<React.ReactNode>;
+  readonly children: React.ReactNode;
 }
 
 export class Canvas extends React.Component<CanvasProps, CanvasState> {
@@ -73,17 +73,15 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
   }
 
   private draw() {
-    if (!this.canvasRef.current) {
-      return;
+    if (this.canvasRef.current) {
+      const ctx = this.canvasRef.current.getContext('2d');
+      ctx.save();
+      ctx.scale(this.dpi, this.dpi);
+  
+      ctx.clearRect(0, 0, this.state.width, this.state.height);
+      this.state.drawables.forEach((drawable) => drawable.draw(ctx));
+      ctx.restore();
     }
-
-    const ctx = this.canvasRef.current.getContext('2d');
-    ctx.save();
-    ctx.scale(this.dpi, this.dpi);
-
-    ctx.clearRect(0, 0, this.state.width, this.state.height);
-    this.state.drawables.forEach((drawable) => drawable.draw(ctx));
-    ctx.restore();
 
     window.requestAnimationFrame(() => this.draw());
   }

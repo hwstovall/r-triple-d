@@ -1,14 +1,13 @@
 import * as React from 'react';
 
-import { Drawable, DrawableComponent } from './drawable';
+import { Drawable, DrawableComponent, DrawableValues } from './drawable';
 
-interface ArcValues {
+interface ArcValues extends DrawableValues {
   readonly x: number;
   readonly y: number;
   readonly radius: number;
   readonly startAngle: number;
   readonly endAngle: number;
-  readonly fillStyle: string;
 }
 
 class ArcDrawable extends Drawable<ArcValues> {
@@ -20,31 +19,24 @@ class ArcDrawable extends Drawable<ArcValues> {
 
     ctx.beginPath();
     ctx.moveTo(x, y);
-
-    ctx.arc(x, y, radius, startAngle, endAngle)
-
+    ctx.arc(x, y, radius, startAngle, endAngle);
     ctx.closePath();
-
-    ctx.fillStyle = this.currentValues.fillStyle;
-    ctx.strokeStyle = this.currentValues.fillStyle;
-    ctx.stroke();
-    ctx.fill();
+    
+    super.draw(ctx);
   }
 }
 
 export class Arc extends DrawableComponent<ArcDrawable, ArcValues> {
   public createDrawable() {
-    const { x, radius, startAngle, endAngle, fillStyle } = this.props;
-    return new ArcDrawable({ x, y: this.y, radius, startAngle, endAngle, fillStyle });
+    return new ArcDrawable({ ...this.props, y: this.y });
   }
 
   public udpateDrawable() {
-    const { x, y, radius, startAngle, endAngle, fillStyle } = this.props;
-    this.drawable.update({ x, y: this.y, radius, startAngle, endAngle, fillStyle });
+    this.drawable.update({ ...this.props, y: this.y });
   }
 
   private get y() {
-    const { y, radius } = this.props;
+    const { y } = this.props;
     return this.context.canvasHeight - y;
   }
 }

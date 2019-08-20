@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { Canvas } from '../components/canvas';
 import { Rect } from '../components/drawables/rect';
-import { color } from 'd3';
 
 interface BarChartProps {
   readonly data: ReadonlyArray<number>;

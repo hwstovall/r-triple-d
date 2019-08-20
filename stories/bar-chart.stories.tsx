@@ -60,4 +60,4 @@ function BarChartHarness() {
 }
 
 storiesOf('Bar Chart', module)
-  .add('plain', () => <BarChartHarness />);
+  .add('Animated', () => <BarChartHarness />);

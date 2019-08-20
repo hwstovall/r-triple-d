@@ -1,8 +1,6 @@
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { BarChart } from '../src/charts';
-import { range } from '../src/utilities/range';
 import { PieChart } from '../src/charts/pie-chart';
 
 
@@ -37,4 +35,4 @@ function PieChartHarness() {
 }
 
 storiesOf('Pie Chart', module)
-  .add('plain', () => <PieChartHarness />);
+  .add('Animated', () => <PieChartHarness />);

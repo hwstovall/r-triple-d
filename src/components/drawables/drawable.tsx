@@ -2,9 +2,17 @@ import * as React from 'react';
 
 import { CanvasContext } from '../canvas';
 
-export abstract class Drawable<Values = {}> {
-  protected abstract animatedProperties: ReadonlyArray<string>;
-  protected abstract animationDuration: number;
+export interface DrawableValues {
+  readonly lineCap?: CanvasLineCap;
+  readonly lineJoin?: CanvasLineJoin;
+  readonly lineWidth?: number;
+  readonly strokeStyle?: string;
+  readonly fillStyle?: string;
+}
+
+export abstract class Drawable<Values extends DrawableValues = {}> {
+  protected animatedProperties: ReadonlyArray<string> = [];
+  protected animationDuration: number = 0;
 
   protected updatedAt: number;
   protected prevValues: Values;
@@ -15,7 +23,18 @@ export abstract class Drawable<Values = {}> {
     this.prevValues = this.currentValues = values;
   }
 
-  public abstract draw(ctx: CanvasRenderingContext2D): void;
+  public draw(ctx: CanvasRenderingContext2D) {
+    const {lineCap, lineJoin, lineWidth, strokeStyle, fillStyle} = this.values;
+
+    ctx.lineCap = lineCap;
+    ctx.lineJoin = lineJoin;
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = strokeStyle;
+    strokeStyle && ctx.stroke();
+
+    ctx.fillStyle = fillStyle;
+    fillStyle && ctx.fill();
+  };
 
   public update(values: Values) {
     this.updatedAt = new Date().getTime();
@@ -26,7 +45,7 @@ export abstract class Drawable<Values = {}> {
 
   protected get values(): Values {
     const now = new Date().getTime();
-    const percentage = (now - this.updatedAt) / this.animationDuration;
+    const percentage = this.animationDuration === 0 ? 1 : (now - this.updatedAt) / this.animationDuration;
 
     if (percentage > 1) {
       return this.currentValues;
@@ -37,7 +56,7 @@ export abstract class Drawable<Values = {}> {
       updatedValues[p] = this.prevValues[p] + (this.currentValues[p] - this.prevValues[p]) * percentage;
     }
 
-    return {...this.currentValues, ...updatedValues};
+    return { ...this.currentValues, ...updatedValues };
   }
 }
 

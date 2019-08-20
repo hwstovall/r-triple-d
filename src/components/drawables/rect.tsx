@@ -1,27 +1,26 @@
 import * as React from 'react';
 
-import { Drawable, DrawableComponent } from './drawable';
+import { Drawable, DrawableComponent, DrawableValues } from './drawable';
 
-export interface RectValues {
+interface RectValues extends DrawableValues {
   readonly x: number;
   readonly y: number;
   readonly w: number;
   readonly h: number;
-  readonly strokeStyle: string;
-  readonly fillStyle: string;
 }
 
-export class RectDrawable extends Drawable<RectValues> {
+class RectDrawable extends Drawable<RectValues> {
   protected animatedProperties = ['x', 'y', 'w', 'h'];
   protected animationDuration = 100;
 
   public draw(ctx: CanvasRenderingContext2D) {
-    const values = this.values;
+    const {x, y, w, h} = this.values;
 
-    ctx.fillStyle = values.fillStyle;
-    ctx.strokeStyle = values.strokeStyle;
-    ctx.fillRect(values.x, values.y, values.w, values.h);
-    ctx.strokeRect(values.x, values.y, values.w, values.h);
+    ctx.beginPath();
+    ctx.rect(x, y, w, h);
+    ctx.closePath();
+
+    super.draw(ctx);
   }
 }
 
