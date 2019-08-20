@@ -10,15 +10,15 @@ export interface DrawableValues {
   readonly fillStyle?: string;
 }
 
-export abstract class Drawable<Values extends DrawableValues = {}> {
+export abstract class Drawable<V extends DrawableValues = {}> {
   protected animatedProperties: ReadonlyArray<string> = [];
   protected animationDuration: number = 0;
 
   protected updatedAt: number;
-  protected prevValues: Values;
-  protected currentValues: Values;
+  protected prevValues: V;
+  protected currentValues: V;
 
-  constructor(values: Values) {
+  constructor(values: V) {
     this.updatedAt = new Date().getTime();
     this.prevValues = this.currentValues = values;
   }
@@ -36,14 +36,14 @@ export abstract class Drawable<Values extends DrawableValues = {}> {
     fillStyle && ctx.fill();
   };
 
-  public update(values: Values) {
+  public update(values: V) {
     this.updatedAt = new Date().getTime();
 
     this.prevValues = this.currentValues;
     this.currentValues = values;
   }
 
-  protected get values(): Values {
+  protected get values(): V {
     const now = new Date().getTime();
     const percentage = this.animationDuration === 0 ? 1 : (now - this.updatedAt) / this.animationDuration;
 
