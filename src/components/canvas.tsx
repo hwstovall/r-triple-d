@@ -4,6 +4,7 @@ import { Drawable } from './drawables/drawable';
 interface CanvasContextValue {
   canvasWidth: number;
   canvasHeight: number;
+  animationDuration: number;
   addDrawable(key: Symbol, drawable: Drawable): void;
   removeDrawable(key: Symbol): void;
 }
@@ -11,6 +12,7 @@ interface CanvasContextValue {
 export const CanvasContext = React.createContext<CanvasContextValue>({
   canvasWidth: 0,
   canvasHeight: 0,
+  animationDuration: 0,
   addDrawable: (key: Symbol, drawable: Drawable) => { /* */ },
   removeDrawable: (key: Symbol) => { /* */ },
 });
@@ -18,7 +20,6 @@ export const CanvasContext = React.createContext<CanvasContextValue>({
 interface CanvasState {
   readonly width: number;
   readonly height: number;
-  readonly drawables: Map<Symbol, Drawable>;
 }
 
 interface CanvasProps {
@@ -48,7 +49,6 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
     this.state = {
       width: 0,
       height: 0,
-      drawables: new Map(),
     };
   }
 
@@ -64,12 +64,10 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
 
   private addDrawable(key: Symbol, drawable: Drawable) {
     this.drawables.set(key, drawable);
-    this.setState({ ...this.state, drawables: this.drawables });
   }
 
   private removeDrawable(key: Symbol) {
     this.drawables.delete(key);
-    this.setState({ ...this.state, drawables: this.drawables });
   }
 
   private draw() {
@@ -79,7 +77,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
       ctx.scale(this.dpi, this.dpi);
   
       ctx.clearRect(0, 0, this.state.width, this.state.height);
-      this.state.drawables.forEach((drawable) => drawable.draw(ctx));
+      this.drawables.forEach((drawable) => drawable.draw(ctx));
       ctx.restore();
     }
 
@@ -91,6 +89,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
     const contextValue: CanvasContextValue = {
       canvasWidth: width,
       canvasHeight: height,
+      animationDuration: 0,
       addDrawable: (k, d) => this.addDrawable(k, d),
       removeDrawable: (k) => this.removeDrawable(k),
     }

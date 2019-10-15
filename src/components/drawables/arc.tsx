@@ -1,6 +1,7 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { Drawable, DrawableComponent, DrawableValues } from './drawable';
+import { Drawable, DrawableComponent, DrawableValues } from "./drawable";
+import { CanvasContext } from "../canvas";
 
 interface ArcValues extends DrawableValues {
   readonly x: number;
@@ -11,8 +12,7 @@ interface ArcValues extends DrawableValues {
 }
 
 class ArcDrawable extends Drawable<ArcValues> {
-  protected animatedProperties = ['x', 'y', 'radius', 'startAngle', 'endAngle'];
-  protected animationDuration = 100;
+  protected animatedProperties = ["x", "y", "radius", "startAngle", "endAngle"];
 
   public draw(ctx: CanvasRenderingContext2D) {
     const { x, y, radius, startAngle, endAngle } = this.values;
@@ -21,22 +21,14 @@ class ArcDrawable extends Drawable<ArcValues> {
     ctx.moveTo(x, y);
     ctx.arc(x, y, radius, startAngle, endAngle);
     ctx.closePath();
-    
+
     super.draw(ctx);
   }
 }
 
-export class Arc extends DrawableComponent<ArcDrawable, ArcValues> {
-  public createDrawable() {
-    return new ArcDrawable({ ...this.props, y: this.y });
-  }
+export function Arc(props: ArcValues) {
+  const drawable = React.useRef(new ArcDrawable({ ...props }));
+  React.useEffect(() => drawable.current.update({ ...props }), [props]);
 
-  public udpateDrawable() {
-    this.drawable.update({ ...this.props, y: this.y });
-  }
-
-  private get y() {
-    const { y } = this.props;
-    return this.context.canvasHeight - y;
-  }
+  return <DrawableComponent drawable={drawable.current} />;
 }
