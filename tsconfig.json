@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",
+    "esModuleInterop": true,
     "jsx": "preserve",
     "types": [
       "node",

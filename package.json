@@ -1,48 +1,46 @@
 {
   "name": "r-triple-d",
-  "version": "0.0.1",
-  "description": "A simple React d3 wrapper",
-  "main": "lib/r-triple-d.js",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
-    "test": "test",
     "storybook": "start-storybook"
   },
-  "repository": "git+https://github.com/hwstovall/r-triple-d.git",
-  "keywords": [
-    "react",
-    "d3",
-    "graph",
-    "data",
-    "responsive"
-  ],
-  "author": "hwstovall",
+  "repository": "git@github.com:hwstovall/r-triple-d.git",
+  "author": "hwstovall <hwstovall@gmail.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/hwstovall/r-triple-d/issues"
-  },
-  "homepage": "https://github.com/hwstovall/r-triple-d#readme",
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/preset-typescript": "^7.3.3",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "@babel/preset-typescript": "^7.6.0",
     "@storybook/addon-knobs": "^5.2.4",
-    "@storybook/react": "^5.1.10",
-    "@types/node": "^12.7.1",
+    "@storybook/react": "^5.2.4",
+    "@types/node": "^12.11.1",
+    "@types/prettier": "^1.18.3",
     "@types/storybook__react": "^4.0.2",
-    "@types/webpack-env": "^1.14.0",
+    "@types/webpack-env": "^1.14.1",
+    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
-    "typescript": "^3.5.3",
-    "webpack": "^4.39.1"
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "prettier": "^1.18.2",
+    "typescript": "^3.6.4",
+    "webpack": "^4.41.2"
   },
   "dependencies": {
     "@types/d3": "^5.7.2",
-    "@types/react": "^16.9.1",
-    "@types/react-dom": "^16.8.5",
-    "d3": "^5.9.7",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.2",
+    "d3": "^5.12.0",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-resize-aware": "^3.0.0-beta.7"
   }
 }
