@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import useResizeAware from 'react-resize-aware';
+import { useThrottle } from 'react-use';
 
 import { Margins } from '../types/types';
 import { LayoutProvider } from '../contexts/layout-context';
@@ -13,9 +14,10 @@ interface SVGProps {
 
 export const SVG = ({ margins, children }: SVGProps) => {
   const [resizeListener, sizes] = useResizeAware();
+  const throttledSizes = useThrottle(sizes, 100);
 
   return (
-    <LayoutProvider margins={margins} dimensions={sizes}>
+    <LayoutProvider margins={margins} dimensions={throttledSizes}>
       <ScaleProvider>
         <div style={{ position: 'relative', height: '200px' }}>
           {resizeListener}
