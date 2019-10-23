@@ -9,7 +9,7 @@ import { ConfigContext } from '../contexts/config-context';
 export const XAxis = () => {
   const { axes } = React.useContext(ConfigContext);
 
-  const { xScale } = useContextRequired(ScaleContext);
+  const { xScale, xScalePercent } = useContextRequired(ScaleContext);
   const { labels } = useContextRequired(ValuesContext);
   const { yAxisWidth, margins, innerDimensions } = useContextRequired(LayoutContext);
 
@@ -23,32 +23,40 @@ export const XAxis = () => {
         stroke="black"
       />
 
-      <g className="ticks x-ticks">
+      <svg
+        className="ticks x-ticks"
+        width={innerDimensions.width - margins.left - yAxisWidth - axes.y.tickLength - 5}
+        x={margins.left + yAxisWidth + axes.y.tickLength + 5}
+      >
         {labels.map((label, i) => (
           <line
             key={`x-tick-${label}`}
             className="tick x-tick"
-            x1={xScale(i)}
-            x2={xScale(i)}
+            x1={`${xScalePercent(i)}%`}
+            x2={`${xScalePercent(i)}%`}
             y1={0}
             y2={axes.x.tickLength}
             stroke="black"
           />
         ))}
-      </g>
+      </svg>
 
-      <g className="labels x-labels">
+      <svg
+        className="labels x-labels"
+        width={innerDimensions.width - margins.left - yAxisWidth - axes.y.tickLength - 5}
+        x={margins.left + yAxisWidth + axes.y.tickLength + 5}
+      >
         {labels.map((label, i) => (
           <text
             key={`x-label-${label}`}
-            x={xScale(i)}
+            x={`${xScalePercent(i)}%`}
             y={axes.x.tickLength + 10}
             style={{ textAnchor: 'middle', alignmentBaseline: 'middle' }}
           >
             {label}
           </text>
         ))}
-      </g>
+      </svg>
     </g>
   );
 };

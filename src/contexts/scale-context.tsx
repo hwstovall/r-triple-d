@@ -10,6 +10,8 @@ import { ConfigContext } from './config-context';
 interface ScaleContextValue {
   readonly xScale: any;
   readonly yScale: any;
+  readonly xScalePercent: any;
+  readonly yScalePercent: any;
 }
 
 export const ScaleContext = createContextRequired<ScaleContextValue>();
@@ -42,5 +44,27 @@ export const ScaleProvider = ({ children }: ScaleProviderProps) => {
     [data, innerDimensions.height, margins.bottom],
   );
 
-  return <ScaleContext.Provider value={{ xScale, yScale }}>{children}</ScaleContext.Provider>;
+  const xScalePercent = React.useMemo(
+    () =>
+      d3
+        .scaleLinear()
+        .domain([0, labels.length])
+        .range([0, 100]),
+    [labels, innerDimensions.width, margins.left],
+  );
+
+  const yScalePercent = React.useMemo(
+    () =>
+      d3
+        .scaleLinear()
+        .domain([0, d3.max(data)])
+        .range([100, 0]),
+    [data],
+  );
+
+  return (
+    <ScaleContext.Provider value={{ xScale, yScale, xScalePercent, yScalePercent }}>
+      {children}
+    </ScaleContext.Provider>
+  );
 };

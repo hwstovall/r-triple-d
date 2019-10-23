@@ -16,7 +16,7 @@ export const YAxis = ({ maxTicks = 5 }: XAxisProps) => {
   const { axes } = React.useContext(ConfigContext);
 
   const { data } = useContextRequired(ValuesContext);
-  const { yScale } = useContextRequired(ScaleContext);
+  const { yScale, yScalePercent } = useContextRequired(ScaleContext);
   const { yAxisWidth, setYAxisWidth, margins, innerDimensions } = useContextRequired(LayoutContext);
 
   const ref = React.useRef<SVGGElement>(null);
@@ -30,7 +30,7 @@ export const YAxis = ({ maxTicks = 5 }: XAxisProps) => {
   const maxTick = d3.max(ticks);
 
   return (
-    <g className="axis y-axis">
+    <g>
       <line
         x1={margins.left + yAxisWidth + 5 + axes.y.tickLength}
         x2={margins.left + yAxisWidth + 5 + axes.y.tickLength}
@@ -39,19 +39,25 @@ export const YAxis = ({ maxTicks = 5 }: XAxisProps) => {
         stroke="black"
       />
 
-      <g className="ticks y-ticks">
-        {ticks.map((tick) => (
-          <line
-            key={`y-tick-${tick}`}
-            className="tick y-tick"
-            x1={margins.left + yAxisWidth + 5}
-            x2={margins.left + yAxisWidth + 5 + axes.y.tickLength}
-            y1={yScale(tick)}
-            y2={yScale(tick)}
-            stroke="black"
-          />
-        ))}
-      </g>
+      <svg
+        className="ticks y-ticks"
+        height={innerDimensions.height - margins.bottom + 4}
+        y={margins.top - 2}
+      >
+        <g style={{transform: 'translate(0, 2px)'}}>
+          {ticks.map((tick) => (
+            <line
+              key={`y-tick-${tick}`}
+              className="tick y-tick"
+              x1={margins.left + yAxisWidth + 5}
+              x2={margins.left + yAxisWidth + 5 + axes.y.tickLength}
+              y1={`${yScalePercent(tick)}%`}
+              y2={`${yScalePercent(tick)}%`}
+              stroke="black"
+            />
+          ))}
+        </g>
+      </svg>
 
       <g className="labels y-labels">
         {ticks.map((tick) => (
