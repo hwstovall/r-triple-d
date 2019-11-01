@@ -11,12 +11,12 @@ export const XAxis = () => {
 
   const { xScale, yScale } = useContextRequired(ScaleContext);
   const { labels } = useContextRequired(ValuesContext);
-  const { yAxisWidth, margins, innerDimensions } = useContextRequired(LayoutContext);
+  const { yLabelDimensions, margins, innerDimensions } = useContextRequired(LayoutContext);
 
   return (
     <g className="axis x-axis" style={{ transform: `translate(0, ${yScale(0)}px)` }}>
       <line
-        x1={margins.left + yAxisWidth + axes.y.tickLength}
+        x1={margins.left + yLabelDimensions.width + axes.y.tickLength}
         x2={innerDimensions.width}
         y1={0}
         y2={0}

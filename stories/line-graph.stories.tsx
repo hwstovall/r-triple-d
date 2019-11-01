@@ -22,7 +22,7 @@ stories.add('Default', () => {
   ];
 
   return (
-    <div style={{ padding: '1em', height: '400px' }}>
+    <div style={{ padding: '1em', height: '300px' }}>
       <LineChart
         labels={labels}
         datasets={[

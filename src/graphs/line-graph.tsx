@@ -27,7 +27,7 @@ export const LineChart = ({ labels, datasets }: LineChartProps) => {
         <Dots />
         <Line />
 
-        <YAxis maxTicks={8} />
+        <YAxis maxTicks={7} />
         <XAxis />
       </SVG>
     </ValuesProvider>

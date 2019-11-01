@@ -17,23 +17,29 @@ export const YAxis = ({ maxTicks = 5 }: XAxisProps) => {
 
   const { min, max } = useContextRequired(ValuesContext);
   const { yScale } = useContextRequired(ScaleContext);
-  const { yAxisWidth, setYAxisWidth, margins, innerDimensions } = useContextRequired(LayoutContext);
+  const { yLabelDimensions, setYLabelDimensions, margins, innerDimensions } = useContextRequired(
+    LayoutContext,
+  );
 
   const ref = React.useRef<SVGGElement>(null);
 
   React.useEffect(() => {
-    const rect = ref.current.getBoundingClientRect();
-    setYAxisWidth(rect.width);
+    const { width, height } = ref.current.getBoundingClientRect();
+    setYLabelDimensions({ width: width + 2, height });
   }, [ref]);
 
-  const ticks = d3.ticks(min, max, maxTicks);
+  const ticks = d3.ticks(
+    min,
+    max,
+    d3.min([Math.floor(innerDimensions.height / (yLabelDimensions.height + 30)), maxTicks]),
+  );
   const maxTick = d3.max(ticks);
 
   return (
     <g className="axis y-axis">
       <line
-        x1={margins.left + yAxisWidth + 5 + axes.y.tickLength}
-        x2={margins.left + yAxisWidth + 5 + axes.y.tickLength}
+        x1={margins.left + yLabelDimensions.width + 5 + axes.y.tickLength}
+        x2={margins.left + yLabelDimensions.width + 5 + axes.y.tickLength}
         y1={0}
         y2={innerDimensions.height}
         stroke="black"
@@ -44,8 +50,8 @@ export const YAxis = ({ maxTicks = 5 }: XAxisProps) => {
           <line
             key={`y-tick-${tick}`}
             className="tick y-tick"
-            x1={margins.left + yAxisWidth + 5}
-            x2={margins.left + yAxisWidth + 5 + axes.y.tickLength}
+            x1={margins.left + yLabelDimensions.width + 5}
+            x2={margins.left + yLabelDimensions.width + 5 + axes.y.tickLength}
             y1={yScale(tick)}
             y2={yScale(tick)}
             stroke="black"
@@ -58,7 +64,7 @@ export const YAxis = ({ maxTicks = 5 }: XAxisProps) => {
           <text
             key={`y-label-${tick}`}
             className="tick y-label"
-            x={margins.left + yAxisWidth}
+            x={margins.left + yLabelDimensions.width}
             y={yScale(tick)}
             style={{ textAnchor: 'end', alignmentBaseline: 'middle' }}
           >

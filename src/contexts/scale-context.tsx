@@ -22,14 +22,17 @@ export const ScaleProvider = ({ children }: ScaleProviderProps) => {
   const { axes } = React.useContext(ConfigContext);
 
   const { labels, min, max } = useContextRequired(ValuesContext);
-  const { margins, innerDimensions, yAxisWidth } = useContextRequired(LayoutContext);
+  const { margins, innerDimensions, yLabelDimensions } = useContextRequired(LayoutContext);
 
   const xScale = React.useMemo(
     () =>
       d3
         .scaleLinear()
         .domain([0, labels.length])
-        .range([margins.left + yAxisWidth + axes.y.tickLength + 5, innerDimensions.width]),
+        .range([
+          margins.left + yLabelDimensions.width + axes.y.tickLength + 5,
+          innerDimensions.width,
+        ]),
     [labels, innerDimensions.width, margins.left],
   );
 

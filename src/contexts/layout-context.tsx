@@ -4,11 +4,11 @@ import { createContextRequired } from '../types/utilities/react';
 import { Margins, Dimensions } from '../types/types';
 
 interface LayoutContextValue {
-  readonly yAxisWidth: number;
+  readonly yLabelDimensions: Dimensions;
   readonly margins: Margins;
   readonly dimensions: Dimensions;
   readonly innerDimensions: Dimensions;
-  setYAxisWidth(width: number): void;
+  setYLabelDimensions(dimensions: Dimensions): void;
 }
 
 export const LayoutContext = createContextRequired<LayoutContextValue>();
@@ -20,18 +20,21 @@ interface LayoutContextProviderProps {
 }
 
 export const LayoutProvider = ({ margins, dimensions, children }: LayoutContextProviderProps) => {
-  const [yAxisWidth, setYAxisWidth] = React.useState<number>(0);
+  const [yLabelDimensions, setYLabelDimensions] = React.useState<Dimensions>({
+    width: 0,
+    height: 0,
+  });
 
   const contextValue: LayoutContextValue = React.useMemo(
     () => ({
-      yAxisWidth,
+      yLabelDimensions,
       margins,
       dimensions,
-      setYAxisWidth,
       innerDimensions: {
         width: dimensions.width - margins.left - margins.right,
         height: dimensions.height - margins.top - margins.bottom,
       },
+      setYLabelDimensions,
     }),
     [margins, dimensions],
   );

@@ -19,7 +19,7 @@ export const SVG = ({ margins, children }: SVGProps) => {
   return (
     <LayoutProvider margins={margins} dimensions={throttledSizes}>
       <ScaleProvider>
-        <div style={{ position: 'relative', height: '200px' }}>
+        <div style={{ position: 'relative', height: '100%' }}>
           {resizeListener}
           <svg width={sizes.width} height={sizes.height}>
             {children}
