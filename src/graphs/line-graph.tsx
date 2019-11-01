@@ -2,17 +2,18 @@ import * as React from 'react';
 
 import { YAxis } from '../components/y-axis';
 import { XAxis } from '../components/x-axis';
-import { ValuesContext } from '../contexts/values-context';
+import { ValuesProvider } from '../contexts/values-context';
 import { Dots } from '../components/dots';
 import { Line } from '../components/line';
 import { SVG } from '../components/svg';
+import { GraphDataSet } from '../types/types';
 
 interface LineChartProps {
   readonly labels: ReadonlyArray<string>;
-  readonly data: ReadonlyArray<number>;
+  readonly datasets: ReadonlyArray<GraphDataSet>;
 }
 
-export const LineChart = ({ labels, data }: LineChartProps) => {
+export const LineChart = ({ labels, datasets }: LineChartProps) => {
   const margins = {
     top: 20,
     bottom: 20,
@@ -21,7 +22,7 @@ export const LineChart = ({ labels, data }: LineChartProps) => {
   };
 
   return (
-    <ValuesContext.Provider value={{ labels, data }}>
+    <ValuesProvider labels={labels} datasets={datasets}>
       <SVG margins={margins}>
         <Dots />
         <Line />
@@ -29,6 +30,6 @@ export const LineChart = ({ labels, data }: LineChartProps) => {
         <YAxis maxTicks={8} />
         <XAxis />
       </SVG>
-    </ValuesContext.Provider>
+    </ValuesProvider>
   );
 };

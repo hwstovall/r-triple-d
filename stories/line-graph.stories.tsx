@@ -23,7 +23,13 @@ stories.add('Default', () => {
 
   return (
     <div style={{ padding: '1em', height: '400px' }}>
-      <LineChart labels={labels} data={labels.map((_, i) => Math.pow(i, 2))} />
+      <LineChart
+        labels={labels}
+        datasets={[
+          { data: labels.map((_, i) => Math.pow(i, 2)) },
+          { data: labels.map((_, i) => 100 * Math.sin(i)) },
+        ]}
+      />
     </div>
   );
 });

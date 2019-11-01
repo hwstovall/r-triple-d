@@ -7,6 +7,10 @@ export interface Margins {
 
 export type GraphData = ReadonlyArray<number>;
 
+export interface GraphDataSet {
+  readonly data: GraphData;
+}
+
 export interface Dimensions {
   readonly width: number;
   readonly height: number;

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "storybook": "start-storybook"
+    "storybook": "start-storybook",
+    "type-check": "tsc --noEmit"
   },
   "repository": "git@github.com:hwstovall/r-triple-d.git",
   "author": "hwstovall <hwstovall@gmail.com>",

@@ -21,7 +21,7 @@ interface ScaleProviderProps {
 export const ScaleProvider = ({ children }: ScaleProviderProps) => {
   const { axes } = React.useContext(ConfigContext);
 
-  const { labels, data } = useContextRequired(ValuesContext);
+  const { labels, min, max } = useContextRequired(ValuesContext);
   const { margins, innerDimensions, yAxisWidth } = useContextRequired(LayoutContext);
 
   const xScale = React.useMemo(
@@ -37,9 +37,9 @@ export const ScaleProvider = ({ children }: ScaleProviderProps) => {
     () =>
       d3
         .scaleLinear()
-        .domain([0, d3.max(data)])
+        .domain([min, max])
         .range([innerDimensions.height, margins.bottom]),
-    [data, innerDimensions.height, margins.bottom],
+    [max, innerDimensions.height, margins.bottom],
   );
 
   return <ScaleContext.Provider value={{ xScale, yScale }}>{children}</ScaleContext.Provider>;

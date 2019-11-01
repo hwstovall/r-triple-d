@@ -15,7 +15,7 @@ interface XAxisProps {
 export const YAxis = ({ maxTicks = 5 }: XAxisProps) => {
   const { axes } = React.useContext(ConfigContext);
 
-  const { data } = useContextRequired(ValuesContext);
+  const { min, max } = useContextRequired(ValuesContext);
   const { yScale } = useContextRequired(ScaleContext);
   const { yAxisWidth, setYAxisWidth, margins, innerDimensions } = useContextRequired(LayoutContext);
 
@@ -26,7 +26,7 @@ export const YAxis = ({ maxTicks = 5 }: XAxisProps) => {
     setYAxisWidth(rect.width);
   }, [ref]);
 
-  const ticks = d3.ticks(0, d3.max(data), maxTicks);
+  const ticks = d3.ticks(min, max, maxTicks);
   const maxTick = d3.max(ticks);
 
   return (
@@ -62,7 +62,7 @@ export const YAxis = ({ maxTicks = 5 }: XAxisProps) => {
             y={yScale(tick)}
             style={{ textAnchor: 'end', alignmentBaseline: 'middle' }}
           >
-            {tick > 0 ? tick : null}
+            {tick !== 0 ? tick : null}
           </text>
         ))}
 

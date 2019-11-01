@@ -9,12 +9,12 @@ import { ConfigContext } from '../contexts/config-context';
 export const XAxis = () => {
   const { axes } = React.useContext(ConfigContext);
 
-  const { xScale } = useContextRequired(ScaleContext);
+  const { xScale, yScale } = useContextRequired(ScaleContext);
   const { labels } = useContextRequired(ValuesContext);
   const { yAxisWidth, margins, innerDimensions } = useContextRequired(LayoutContext);
 
   return (
-    <g className="axis x-axis" style={{ transform: `translate(0, ${innerDimensions.height}px)` }}>
+    <g className="axis x-axis" style={{ transform: `translate(0, ${yScale(0)}px)` }}>
       <line
         x1={margins.left + yAxisWidth + axes.y.tickLength}
         x2={innerDimensions.width}
